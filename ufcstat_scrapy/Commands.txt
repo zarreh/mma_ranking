@@ -1,0 +1,10 @@
+START A TERMINAL ON VSCODE
+
+-----
+to see all the enviroments:
+conda info --envs
+-------
+conda activate "Virtual Env" 
+cd C:\Users\z187900\Dropbox\Data projects\ufcstat_scrapy
+scrapy crawl events -o all_fights_new.csv 
+scrapy crawl fighter_crawl -o fighters_new.csv 
