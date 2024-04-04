@@ -10,9 +10,9 @@ Last Modified Date: YYYY-MM-DD
 Version: 1.0.0
 """
 
+import logging
 # Standard library imports
 import os
-import logging
 
 # Third-party imports
 # e.g., import flask
@@ -33,6 +33,7 @@ __license__ = ""
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+
 def initialize_app(config):
     """
     Initialize the application with the given configuration.
@@ -40,14 +41,17 @@ def initialize_app(config):
     Parameters:
     - config: A configuration dictionary or object.
     """
-    logger.info(f"Initializing {__app_name__} v{__version__} with provided configuration.")
+    logger.info(
+        f"Initializing {__app_name__} v{__version__} with provided configuration."
+    )
+
 
 # Optionally, any global configurations or variables can be set here
 APP_CONFIG = {
-    'setting1': 'value1',
-    'setting2': 'value2',
+    "setting1": "value1",
+    "setting2": "value2",
 }
 
 # Initialize the app if specific conditions are met (optional)
-if os.getenv('MYAPP_ENV') == 'production':
+if os.getenv("MYAPP_ENV") == "production":
     initialize_app(APP_CONFIG)
