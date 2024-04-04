@@ -27,8 +27,9 @@ activate_env:
 	source ../venv/mma_ufc/Scripts/activate
 
 .PHONY: git_push
+MSG ?= "updates"
 git_push: 
 	git add .
-	git commit -m "updates"
+	git commit -m "$(MSG)"
 	git push
 
