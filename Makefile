@@ -14,15 +14,16 @@ lint:
 
 # Run the Scrapy crawler
 .PHONY: run_scrapy
+DATE = $(shell date "+%Y-%m-%d")
 run_scrapy:
-	cd mma_app/ufcstat_scrapy && scrapy crawl events -o all_fights_new.csv
+	cd mma_app/ufcstat_scrapy && scrapy crawl events -o ../../data/all_fights_$(DATE).csv
 
 # Clean up generated files
 .PHONY: clean
 clean:
 	# Command to clean up linting artifacts or any other clean up you want to do
 
-.PHONY: test
+.PHONY: activate_env
 activate_env:
 	source ../venv/mma_ufc/Scripts/activate
 
