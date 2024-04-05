@@ -8,3 +8,5 @@ conda activate "Virtual Env"
 cd C:\Users\z187900\Dropbox\Data projects\ufcstat_scrapy
 scrapy crawl events -o all_fights_new.csv 
 scrapy crawl fighter_crawl -o fighters_new.csv 
+
+source ../venv/mma_ufc/Scripts/activate
