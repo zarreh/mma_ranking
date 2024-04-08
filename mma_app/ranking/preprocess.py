@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta
 
-from config import N_YEARS
+from mma_app.config import N_YEARS
 import pandas as pd
 
 # dt = datetime.strptime('2020-04-01', '%Y-%m-%d')
@@ -167,7 +167,6 @@ def fighter_perfomance(df: pd.DataFrame, n_years: int) -> pd.DataFrame:
 
 
 if __name__ == "__main__":
-    from config import N_YEARS
     df = read_fights()
     # df["Weight"] = df.apply(lambda x: weight(x.Weight), axis=1)
     _df = fighter_perfomance(df=df, n_years=N_YEARS)
