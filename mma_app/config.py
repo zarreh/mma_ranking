@@ -1,7 +1,6 @@
-# IF_SCRAPE_ALL: bool = False
-# BEGAN_DATE: str = "2024-01-01"
-
-from datetime import datetime
+from datetime import date, datetime
 
 IF_SCRAPE_ALL: bool = False
-BEGAN_DATE:datetime.date = datetime.strptime("1990-01-01", "%Y-%m-%d").date()
+BEGIN_DATE: date = datetime.strptime("1990-01-01", "%Y-%m-%d").date()
+
+N_YEARS: int = 5  # number of years to generate the fighter performance ratio

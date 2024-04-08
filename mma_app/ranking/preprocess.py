@@ -1,52 +1,11 @@
 from datetime import datetime, timedelta
 
+from config import N_YEARS
 import pandas as pd
 
 # dt = datetime.strptime('2020-04-01', '%Y-%m-%d')
 dt = datetime.today()  # .date()
 str(dt)
-
-
-def read_fights(path: str = r"..\..\data\all_fights_new.csv") -> pd.DataFrame:
-    """_summary_
-
-    Args:
-        path (str, optional): path to the fights history. Defaults to r"..\..\data\all_fights_new.csv".
-
-    Returns:
-        pd.DataFrame: fight history dataframe
-    """
-    df = pd.read_csv(path, parse_dates=True, low_memory=False)[
-        [
-            "Date",
-            "fighter1",
-            "fighter2",
-            "fighter1_result",
-            "fighter2_result",
-            "BELT",
-            "BOUNES",
-            "Weight",
-            "TIME_FORMAT",
-            "Method",
-            "Method_detail",
-            "Judge1_score",
-            "Judge2_score",
-            "Judge3_score",
-            "ROUND",
-            "TIME",
-        ]
-    ]
-    df = df[df["Date"] != "Date"]
-    df.BOUNES = (df.BOUNES.str.split("/")).str[-1].str.split(".png").str[0]
-    df.BELT = (df.BELT.str.split("/")).str[-1].str.split(".png").str[0]
-    df.Weight = df.Weight.str.strip("Bout")
-    df.Date = pd.to_datetime(df.Date.astype(str))
-    df.TIME_FORMAT = df.TIME_FORMAT.str.split(" ").str[0]
-    df = df[df["Date"] < str(dt)]
-    return df
-
-
-# df = read_fights()
 
 
 def weight(w: str) -> str:
@@ -90,7 +49,85 @@ def weight(w: str) -> str:
     return new
 
 
-# df["Weight"] = df.apply(lambda x: weight(x.Weight), axis=1)
+def win_lose(fighter1_result: str, fighter1: str, fighter2: str) -> tuple[str, str]:
+    if fighter1_result == "W":
+        return fighter1, fighter2
+    elif fighter1_result == "L":
+        return fighter2, fighter1
+    else:
+        return fighter2, fighter1
+
+
+def read_fights(path: str = r"data\all_fights_new.csv") -> pd.DataFrame:
+    """
+    _summary_
+
+    Args:
+        path (str, optional): path to the fights history. Defaults to r`../../data/all_fights_new.csv`.
+
+    Returns:
+        pd.DataFrame: fight history dataframe
+    """
+    df = pd.read_csv(path, parse_dates=True, low_memory=False)[
+        [
+            "Date",
+            "fighter1",
+            "fighter2",
+            "fighter1_result",
+            "fighter2_result",
+            "BELT",
+            "BOUNES",
+            "Weight",
+            "TIME_FORMAT",
+            "Method",
+            "Method_detail",
+            "Judge1_score",
+            "Judge2_score",
+            "Judge3_score",
+            "ROUND",
+            "TIME",
+        ]
+    ]
+    df = df[df["Date"] != "Date"]
+    df.BOUNES = (df.BOUNES.str.split("/")).str[-1].str.split(".png").str[0]
+    df.BELT = (df.BELT.str.split("/")).str[-1].str.split(".png").str[0]
+    df.Weight = df.Weight.str.strip("Bout")
+    df.Date = pd.to_datetime(df.Date.astype(str))
+    df.TIME_FORMAT = df.TIME_FORMAT.str.split(" ").str[0]
+    df = df[df["Date"] < str(dt)]
+
+    # correcting the weight string
+    df["Weight"] = df.apply(lambda x: weight(x.Weight), axis=1)
+
+    df["winner"] = df.apply(
+        lambda x: win_lose(x.fighter1_result, x.fighter1, x.fighter2), axis=1
+    ).str[0]
+    df["losser"] = df.apply(
+        lambda x: win_lose(x.fighter1_result, x.fighter1, x.fighter2), axis=1
+    ).str[1]
+    df = df[
+        [
+            "Date",
+            "winner",
+            "losser",
+            "BELT",
+            "BOUNES",
+            "Weight",
+            "TIME_FORMAT",
+            "Method",
+            "Method_detail",
+            "Judge1_score",
+            "Judge2_score",
+            "Judge3_score",
+            "ROUND",
+            "TIME",
+            "fighter1",
+            "fighter2",
+            "fighter1_result",
+            "fighter2_result",
+        ]
+    ]
+    return df
 
 
 def fighter_perfomance(df: pd.DataFrame, n_years: int) -> pd.DataFrame:
@@ -122,8 +159,16 @@ def fighter_perfomance(df: pd.DataFrame, n_years: int) -> pd.DataFrame:
     df_perf = df_1.add(df_2, fill_value=0)
     df_perf["n_fights"] = df_perf.sum(axis=1)
     df_perf["perf_rat"] = (df_perf["n_fights"] - df_perf["L"]) / df_perf["n_fights"]
-    df_perf.columns = df_perf.columns.values
+    df_perf.columns = pd.Index(df_perf.columns.values.astype(str))
     df_perf = df_perf.sort_values(
         by=["perf_rat", "n_fights"], ascending=False
     ).reset_index(level=-1)
     return df_perf
+
+
+if __name__ == "__main__":
+    from config import N_YEARS
+    df = read_fights()
+    # df["Weight"] = df.apply(lambda x: weight(x.Weight), axis=1)
+    _df = fighter_perfomance(df=df, n_years=N_YEARS)
+    print(_df.head(3))
