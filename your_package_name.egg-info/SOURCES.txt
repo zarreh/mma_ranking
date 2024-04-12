@@ -4,6 +4,7 @@ setup.py
 mma_ranking/__init__.py
 mma_ranking/config.py
 mma_ranking/ranking/__init__.py
+mma_ranking/ranking/network_ranking.py
 mma_ranking/ranking/preprocess.py
 your_package_name.egg-info/PKG-INFO
 your_package_name.egg-info/SOURCES.txt
