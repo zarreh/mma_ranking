@@ -3,7 +3,7 @@ import math
 import numpy as np
 import pandas as pd
 
-
+# !NOTE: Change the max date to the selected date so that we can load up to that date
 def win_lose(fighter1_result: str, fighter1: str, fighter2: str) -> tuple[str, str]:
     if fighter1_result == "W":
         return fighter1, fighter2
@@ -13,7 +13,7 @@ def win_lose(fighter1_result: str, fighter1: str, fighter2: str) -> tuple[str, s
         return fighter2, fighter1
 
 
-def read_fights(path: str = r"data\all_fights_new.csv") -> pd.DataFrame:
+def read_fights(path) -> pd.DataFrame:
     """
     _summary_
 
@@ -63,7 +63,7 @@ def read_fights(path: str = r"data\all_fights_new.csv") -> pd.DataFrame:
             new = "other"
         return new
 
-    df = pd.read_csv(path, parse_dates=True, low_memory=False)[
+    df = pd.read_csv(path, low_memory=False)[
         [
             "Date",
             "fighter1",
@@ -83,12 +83,18 @@ def read_fights(path: str = r"data\all_fights_new.csv") -> pd.DataFrame:
             "TIME",
         ]
     ]
-    max_date = df["Date"].max()
+    
     df = df[df["Date"] != "Date"]
+    df.Date = pd.to_datetime(df.Date)
+    df.Date = pd.to_datetime(df.Date, format="%B %d, %Y")
+    
+    max_date = df["Date"].max()
+
+
     df.BOUNES = (df.BOUNES.str.split("/")).str[-1].str.split(".png").str[0]
     df.BELT = (df.BELT.str.split("/")).str[-1].str.split(".png").str[0]
     df.Weight = df.Weight.str.strip("Bout")
-    df.Date = pd.to_datetime(df.Date.astype(str))
+    # df.Date = pd.to_datetime(df.Date.astype(str))
     df.TIME_FORMAT = df.TIME_FORMAT.str.split(" ").str[0]
     df = df[df["Date"] < str(max_date)]
 
@@ -159,7 +165,7 @@ def recency(Date, dt):
     return val
 
 
-def load_train_data(path: str = r"data\all_fights_new.csv") -> pd.DataFrame:
+def load_train_data(path: str) -> pd.DataFrame:
     # adjusts the winner and losser position
 
     df = read_fights(path)
