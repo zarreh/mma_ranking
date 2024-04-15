@@ -29,7 +29,7 @@ activate_env:
 
 .PHONY: git_push
 MSG ?= "updates"
-git_push: 
+git: 
 	git add .
 	git commit -m "$(MSG)"
 	git push
