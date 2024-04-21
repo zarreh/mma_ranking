@@ -80,7 +80,7 @@ def generate_ranks_weightclass(
         df_w_rank = df_ranked[df_ranked.index.isin(fighters_list)].sort_values(
             by=["page_rank"], ascending=False
         )
-        
+
         df_perf_select = (
             performance_df[
                 (performance_df.index.isin(fighters_list))

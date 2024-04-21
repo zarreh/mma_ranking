@@ -3,6 +3,7 @@ import math
 import numpy as np
 import pandas as pd
 
+
 # !NOTE: Change the max date to the selected date so that we can load up to that date
 def win_lose(fighter1_result: str, fighter1: str, fighter2: str) -> tuple[str, str]:
     if fighter1_result == "W":
@@ -83,13 +84,12 @@ def read_fights(path) -> pd.DataFrame:
             "TIME",
         ]
     ]
-    
+
     df = df[df["Date"] != "Date"]
     df.Date = pd.to_datetime(df.Date)
     df.Date = pd.to_datetime(df.Date, format="%B %d, %Y")
-    
-    max_date = df["Date"].max()
 
+    max_date = df["Date"].max()
 
     df.BOUNES = (df.BOUNES.str.split("/")).str[-1].str.split(".png").str[0]
     df.BELT = (df.BELT.str.split("/")).str[-1].str.split(".png").str[0]
