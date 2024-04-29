@@ -16,7 +16,7 @@ lint:
 .PHONY: run_scrapy
 DATE = $(shell date "+%Y-%m-%d")
 run_scrapy:
-	cd mma_app/ufcstat_scrapy && scrapy crawl events -o ../../data/all_fights_$(DATE).csv
+	cd mma_ranking/ufcstat_scrapy && scrapy crawl events -o ../../data/all_fights_$(DATE).csv
 
 # Clean up generated files
 .PHONY: clean
