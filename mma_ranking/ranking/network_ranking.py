@@ -240,6 +240,34 @@ def adjust_ranking_based_on_matches(
     
     return updated_rankings
 
+def get_fighters_in_weightclass(
+    df: pd.DataFrame, minimum_fights: int = 3
+) -> pd.DataFrame:
+
+    _df_winner = (
+        df.groupby(["winner", "Weight"])
+        .size()
+        .reset_index(name="counts")  # type: ignore
+        .sort_values(by="counts", ascending=False)
+    )
+    _df_loser = (
+        df.groupby(["losser", "Weight"])
+        .size()
+        .reset_index(name="counts") # type: ignore
+        .sort_values(by="counts", ascending=False)
+    )
+    _df_winner = _df_winner.rename(columns={"winner": "fighter"})
+    _df_loser = _df_loser.rename(columns={"losser": "fighter"})
+
+    # append the loser data to the winner data to get the total number of matches for each fighter
+    df_fighter_weight = pd.concat([_df_winner, _df_loser])
+    df_fighter_weight = (
+        df_fighter_weight.groupby(["fighter", "Weight"]).sum().reset_index()
+    )
+    df_fighter_weight = df_fighter_weight[df_fighter_weight["counts"] > minimum_fights]
+    return df_fighter_weight
+
+
 # if __name__ == "__main__":
 #     from mma_ranking.config import N_YEARS
 #     from mma_ranking.ranking.preprocess import load_train_data

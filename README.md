@@ -2,6 +2,8 @@
 **TODO:**
 - [x] create a make file.
 - [x] adjustment of the ranking method is moved to script. 
+- [x] get the fighters in each weight class.
+- [ ] filter the extra fighters in each weight class before ranking.
 - [ ] bantamweight rank looks so off. Fix it.
 - [ ] case for sean strickland in light heavyweight is wrong. Should be fixed. Maybe have the matches for all weight classes.
 - [x] find the reason for missing ranks (example: lightweight rank 8)
