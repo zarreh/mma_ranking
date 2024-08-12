@@ -28,21 +28,21 @@ This project aims to provide insights into fighter performance and rankings, ser
 
 To run this project locally, you need Python 3.8 or later and the required libraries. Install the necessary dependencies with:
 
-\`\`\`bash
+```bash
 pip install -r requirements.txt
-\`\`\`
+```
 
 ## Project Structure
 
 The repository is organized into three main phases:
 
 - **Data Scraping**
-  - \`__init__.py\`: Initialization file for the scraping module.
-  - \`events.py\`: Script for scraping MMA event data.
-  - \`fighter_crawl.py\`: Script for scraping individual fighter data.
-  - \`fighters.py\`: Main script orchestrating the fighter data scraping.
-  - \`scraping_config.py\`: Configuration file for the scraping process.
-  - \`items.py\`, \`middlewares.py\`, \`pipelines.py\`, \`settings.py\`: Scrapy framework components.
+  - `__init__.py`: Initialization file for the scraping module.
+  - `events.py`: Script for scraping MMA event data.
+  - `fighter_crawl.py`: Script for scraping individual fighter data.
+  - `fighters.py`: Main script orchestrating the fighter data scraping.
+  - `scraping_config.py`: Configuration file for the scraping process.
+  - `items.py`, `middlewares.py`, `pipelines.py`, `settings.py`: Scrapy framework components.
 
 - **Fighter Ranking**
   - \`__init__.py\`: Initialization file for the ranking module.
@@ -66,8 +66,8 @@ The ranking of fighters is based on a network analysis approach that evaluates f
 
 ### Key Files for Ranking:
 
-- \`network_ranking.py\`: Implements the ranking algorithm.
-- \`preprocess.py\`: Prepares the data for ranking.
+- `network_ranking.py`: Implements the ranking algorithm.
+- `preprocess.py`: Prepares the data for ranking.
 
 ## Visualization and Results
 
